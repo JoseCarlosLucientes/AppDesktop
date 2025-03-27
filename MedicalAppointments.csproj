@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspose.Slides.NET" Version="25.3.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+    <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MedicalAppointments.Application\MedicalAppointments.AppLogic.csproj" />
+    <ProjectReference Include="..\MedicalAppointments.AppLogic\MedicalAppointments.AppLogic.csproj" />
+    <ProjectReference Include="..\MedicalAppointments.Domain\MedicalAppointments.Domain.csproj" />
+    <ProjectReference Include="..\MedicalAppointments.Infrastructure\MedicalAppointments.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+    <Version>13.0.3</Version>
+    </PackageReference>
+</ItemGroup>
+
+</Project>

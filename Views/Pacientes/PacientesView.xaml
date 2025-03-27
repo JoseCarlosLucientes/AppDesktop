@@ -1,0 +1,50 @@
+﻿<Window x:Class="MedicalAppointments.Views.Pacientes.PacientesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Gestión de Pacientes" Height="600" Width="1000"
+        
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <!-- MENÚ LATERAL -->
+        <DockPanel>
+            <StackPanel Background="#2C3E50" Width="200" DockPanel.Dock="Left">
+                <TextBlock Text="Menu Principal" Foreground="White" Margin="10" FontSize="16"/>
+
+                <Button Style="{StaticResource SidebarButtonStyle}" Click="NuevoPaciente_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Account" Width="20" Margin="0,0,10,0"/>
+                        <TextBlock Text="Nuevo Paciente"/>
+                    </StackPanel>
+                </Button>
+                
+                
+                <!-- mas botones aqui -->
+                
+                
+            </StackPanel>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <Grid Margin="10">
+                <StackPanel>
+                    <TextBlock Text="Listado de pacientes" FontSize="24" Margin="0,0,0,10"/>
+                    <DataGrid ItemsSource="{Binding Pacientes}" AutoGenerateColumns="False" Margin="10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding IdPaciente}" Width="Auto"/>
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                            <DataGridTextColumn Header="Apellidos" Binding="{Binding ApellidoCompleto}" Width="*"/>
+                            <DataGridTextColumn Header="DNI" Binding="{Binding DNI}" Width="Auto"/>
+                            <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono1}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

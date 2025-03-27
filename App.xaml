@@ -1,0 +1,57 @@
+﻿<Application x:Class="MedicalAppointments.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             StartupUri="Views/MenuPrincipal.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Recursos de Material Design -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Estilo para botones de sidebar (manteniendo tu estilo personalizado) -->
+            <Style x:Key="SidebarButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                            CornerRadius="4" 
+                            Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF1E88E5"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Estilo corregido para GroupBox -->
+            <Style TargetType="GroupBox">
+                <Setter Property="Margin" Value="0 0 0 10"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}"/>
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+            </Style>
+
+            <!-- Estilo corregido para TextBlock -->
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
+
+
