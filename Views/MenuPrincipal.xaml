@@ -56,10 +56,10 @@
                                 <materialDesign:PackIcon Kind="AccountCircle" Width="60" Height="60" Foreground="White" HorizontalAlignment="Center" Margin="0,10"/>
 
                                 <!-- Botones -->
-                                <Button Style="{StaticResource SidebarButtonStyle}" Command="{Binding OpenPacientesCommand}">
+                                <Button Style="{StaticResource SidebarButtonStyle}" Click="PacientesButton_Click">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Account" Width="20" Margin="0,0,10,0"/>
-                                        <TextBlock Text="Paciente"/>
+                                        <TextBlock Text="Pacientes"/>
                                     </StackPanel>
                                 </Button>
 

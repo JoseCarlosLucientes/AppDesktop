@@ -37,7 +37,7 @@ namespace MedicalAppointments.Views.Pacientes
                 {
                     Nombre = txtNombre.Text.Trim(),
                     Apellidos = txtApellidos.Text.Trim(),
-                    DNI = txtDNI.Text.Trim(),
+                    Dni = txtDNI.Text.Trim(),
                     FechaNacimiento = dpFechaNacimiento.SelectedDate,
                     Sexo = cbSexo.Text,
                     Profesion = cbProfesion.Text,

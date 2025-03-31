@@ -1,12 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MedicalAppointments.AppLogic.DTOs;
-using MedicalAppointments.AppLogic.Services;
-using MedicalAppointments.Domain.Entities;
 using MedicalAppointments.Domain.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace MedicalAppointments.ViewModels.Pacientes

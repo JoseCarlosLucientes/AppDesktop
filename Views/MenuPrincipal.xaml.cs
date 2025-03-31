@@ -1,4 +1,5 @@
 ﻿using MedicalAppointments.ViewModels.Pacientes;
+using MedicalAppointments.Views.Pacientes;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Input;
@@ -43,6 +44,12 @@ namespace MedicalAppointments.Views
 
             // Opcional: Cierra toda la aplicación si esta es la ventana principal
             // Application.Current.Shutdown(); 
+        }
+
+        private void PacientesButton_Click(object sender, RoutedEventArgs e)
+        {
+            var pacientesView = App.AppHost.Services.GetRequiredService<PacientesView>();
+            pacientesView.ShowDialog();
         }
     }
 }

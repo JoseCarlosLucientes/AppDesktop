@@ -11,6 +11,10 @@ using MedicalAppointments.AppLogic.Mapping;
 using MedicalAppointments.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using MedicalAppointments.Views;
+using Microsoft.Extensions.Logging;
+using System;
+using MedicalAppointments.ViewModels.Pacientes;
+using MedicalAppointments.Views.Pacientes;
 
 namespace MedicalAppointments
 {
@@ -20,7 +24,12 @@ namespace MedicalAppointments
 
         public App()
         {
-            AppHost = Host.CreateDefaultBuilder()
+            AppHost = Host.CreateDefaultBuilder(Array.Empty<string>())
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders(); //  Evita el EventLog
+                    logging.AddDebug();
+                })
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     config.SetBasePath(Directory.GetCurrentDirectory());
@@ -28,21 +37,25 @@ namespace MedicalAppointments
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    // Configuración de DbContext Factory
+                    // DbContext Factory
                     services.AddDbContextFactory<AppDbContext>(options =>
                         options.UseSqlServer(hostContext.Configuration.GetConnectionString("DefaultConnection")));
 
-                    // Registro de repositorios
+                    // Repositorios
                     services.AddScoped<IPacienteRepository, PacienteRepository>();
 
-                    // Registro de servicios
+                    // Servicios
                     services.AddScoped<IPacienteService<PacienteDto>, PacienteService>();
+                    services.AddScoped<PacienteService>();
 
-                    // Registro de AutoMapper
-                    services.AddAutoMapper(typeof(MappingProfile)); // Asumiendo que tienes MappingProfile en AppLogic
+                    // AutoMapper
+                    services.AddAutoMapper(typeof(MappingProfile));
 
-                    // Registro de ventana principal
+                    // Vista principal
                     services.AddSingleton<MenuPrincipal>();
+                    services.AddTransient<PacientesViewModel>();
+                    services.AddTransient<PacientesView>();
+
                 })
                 .Build();
         }

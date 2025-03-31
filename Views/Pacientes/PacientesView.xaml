@@ -34,11 +34,11 @@
                     <TextBlock Text="Listado de pacientes" FontSize="24" Margin="0,0,0,10"/>
                     <DataGrid ItemsSource="{Binding Pacientes}" AutoGenerateColumns="False" Margin="10">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding IdPaciente}" Width="Auto"/>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
                             <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
                             <DataGridTextColumn Header="Apellidos" Binding="{Binding ApellidoCompleto}" Width="*"/>
-                            <DataGridTextColumn Header="DNI" Binding="{Binding DNI}" Width="Auto"/>
-                            <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono1}" Width="Auto"/>
+                            <DataGridTextColumn Header="DNI" Binding="{Binding Dni}" Width="Auto"/>
+                            <DataGridTextColumn Header="Teléfono" Binding="{Binding TelMovil}" Width="Auto"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
