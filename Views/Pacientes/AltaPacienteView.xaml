@@ -32,8 +32,21 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                    <Label Content="Apellidos" FontWeight="Bold" Foreground="#FF333333"/>
-                    <TextBox Name="txtApellidos"  Background="White" BorderBrush="#FFCCCCCC"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Label Content="Primer apellido" FontWeight="Bold" Foreground="#FF333333"/>
+                            <TextBox Name="txtApellido1" Background="White" BorderBrush="#FFCCCCCC"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <Label Content="Segundo apellido" FontWeight="Bold" Foreground="#FF333333"/>
+                            <TextBox Name="txtApellido2" Background="White" BorderBrush="#FFCCCCCC"/>
+                        </StackPanel>
+                    </Grid>
 
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -125,13 +138,18 @@
             </Grid>
 
             <!-- RGPD -->
-            <TextBlock Margin="0,15,0,10" TextWrapping="Wrap" Foreground="#FF333333">
-                El paciente ha sido informado de sus derechos respecto al reglamento R.G.P.D. y solicita expresa y voluntariamente su legítimo consentimiento del tratamiento de sus datos.
-            </TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,10">
+                <CheckBox Name="chkRGPD" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBlock TextWrapping="Wrap" Foreground="#FF333333" VerticalAlignment="Center">
+                    El paciente ha sido informado de sus derechos respecto al reglamento R.G.P.D.
+        <LineBreak/>
+        y solicita expresa y voluntariamente su legítimo consentimiento del tratamiento de sus datos.
+                </TextBlock>
+            </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10,0,15">
                 <Button Content="Vista previa RGPD" Width="120" Margin="0,0,10,0" Background="#FFE0E0E0" Foreground="#FF333333"/>
-                <Button Content="Registrar firma" Width="120" Background="#FFE0E0E0" Foreground="#FF333333"/>
+                <Button Content="Registrar firma" Width="120" Background="#FFE0E0E0" Foreground="#FF333333" Click="RegistrarFirma_Click"/>
             </StackPanel>
         </StackPanel>
 
@@ -148,7 +166,7 @@
             <TextBox Name="txtNumeroHistoria" IsReadOnly="True" Margin="0,0,0,20" 
                     Background="#FFEEEEEE" BorderBrush="#FFCCCCCC" Foreground="#FF333333" HorizontalAlignment="Left" Width="250"/>
 
-            
+
             <!-- Opciones de contacto -->
             <Label Content="Opciones de contacto" FontWeight="Bold" Margin="0,0,0,5" Foreground="#FF333333"/>
             <Grid Margin="0,0,0,20">

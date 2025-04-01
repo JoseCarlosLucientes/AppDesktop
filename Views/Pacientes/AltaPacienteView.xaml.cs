@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+﻿using MedicalAppointments.AppLogic.DTOs;
+using MedicalAppointments.Domain.Interfaces;
 using System;
 using System.Windows;
 
@@ -6,9 +7,12 @@ namespace MedicalAppointments.Views.Pacientes
 {
     public partial class AltaPacienteView : Window
     {
-        public AltaPacienteView()
+        private readonly IPacienteService<PacienteDto> _pacienteService;
+        private byte[]? _firmaPaciente;
+        public AltaPacienteView(IPacienteService<PacienteDto> pacienteService)
         {
             InitializeComponent();
+            _pacienteService = pacienteService;
             InicializarControles();
         }
 
@@ -26,19 +30,20 @@ namespace MedicalAppointments.Views.Pacientes
             chkMarketing.IsChecked = false;
         }
 
-        private void CrearPaciente_Click(object sender, RoutedEventArgs e)
+        private async void CrearPaciente_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidarCamposObligatorios())
                 return;
 
             try
             {
-                var paciente = new
+                var pacienteDto = new PacienteDto
                 {
                     Nombre = txtNombre.Text.Trim(),
-                    Apellidos = txtApellidos.Text.Trim(),
+                    Apellido1 = txtApellido1.Text.Trim(),
+                    // Apellido2 = txtApellido2.Text.Trim(),
                     Dni = txtDNI.Text.Trim(),
-                    FechaNacimiento = dpFechaNacimiento.SelectedDate,
+                    FechaNacimiento = dpFechaNacimiento.SelectedDate ?? DateTime.Now,
                     Sexo = cbSexo.Text,
                     Profesion = cbProfesion.Text,
                     Direccion = txtDireccion.Text.Trim(),
@@ -46,26 +51,34 @@ namespace MedicalAppointments.Views.Pacientes
                     Provincia = txtProvincia.Text.Trim(),
                     Ciudad = txtCiudad.Text.Trim(),
                     Email = txtEmail.Text.Trim(),
-                    TelefonoFijo = txtTelefonoFijo.Text.Trim(),
-                    TelefonoMovil = txtTelefonoMovil.Text.Trim(),
-                    NumeroHistoria = txtNumeroHistoria.Text.Trim(),
-                    ContactoEmail = chkEmail.IsChecked,
-                    ContactoSMS = chkSMS.IsChecked,
-                    ContactoWhatsApp = chkWhatsApp.IsChecked,
-                    ContactoMarketing = chkMarketing.IsChecked,
-                    Otros = txtOtros.Text.Trim()
+                    TelFijo = txtTelefonoFijo.Text.Trim(),
+                    TelMovil = txtTelefonoMovil.Text.Trim(),
+                    NumeroHistoriaClinica = txtNumeroHistoria.Text.Trim(),
+                    PermiteEmail = chkEmail.IsChecked ?? false,
+                    PermiteSMS = chkSMS.IsChecked ?? false,
+                    PermiteWhatsApp = chkWhatsApp.IsChecked ?? false,
+                    PermiteMarketing = chkMarketing.IsChecked ?? false,
+                    Observ = txtOtros.Text?.Trim(),
+                    //RGPD = chkRGPD.IsChecked ?? false
                 };
 
-                // Lógica para guardar el paciente
-                MessageBox.Show("Paciente creado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                pacienteDto.Firma = _firmaPaciente;
+
+
+                await _pacienteService.CreatePacienteAsync(pacienteDto);
+                MessageBox.Show("Paciente guardado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Paciente duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al crear el paciente: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al guardar paciente: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
 
+        }
         private bool ValidarCamposObligatorios()
         {
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
@@ -75,10 +88,10 @@ namespace MedicalAppointments.Views.Pacientes
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtApellidos.Text))
+            if (string.IsNullOrWhiteSpace(txtApellido1.Text))
             {
                 MostrarError("El campo Apellidos es obligatorio");
-                txtApellidos.Focus();
+                txtApellido1.Focus();
                 return false;
             }
 
@@ -108,5 +121,18 @@ namespace MedicalAppointments.Views.Pacientes
         {
             this.Close();
         }
+
+       
+
+        private void RegistrarFirma_Click(object sender, RoutedEventArgs e)
+        {
+            var ventanaFirma = new FirmaView();
+            if (ventanaFirma.ShowDialog() == true)
+            {
+                _firmaPaciente = ventanaFirma.FirmaBytes;
+                MessageBox.Show("Firma registrada correctamente.", "Firma", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
     }
 }

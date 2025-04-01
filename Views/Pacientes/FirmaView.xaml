@@ -1,0 +1,16 @@
+<Window x:Class="MedicalAppointments.Views.Pacientes.FirmaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Firma del paciente" Height="300" Width="500"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+
+    <Grid Background="White">
+        <InkCanvas x:Name="canvasFirma" Background="LightGray" Margin="10" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
+            <Button Content="Limpiar" Width="80" Margin="5" Click="Limpiar_Click"/>
+            <Button Content="Guardar" Width="80" Margin="5" Click="Guardar_Click"/>
+            <Button Content="Cancelar" Width="80" Margin="5" Click="Cancelar_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

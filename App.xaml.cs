@@ -55,6 +55,7 @@ namespace MedicalAppointments
                     services.AddSingleton<MenuPrincipal>();
                     services.AddTransient<PacientesViewModel>();
                     services.AddTransient<PacientesView>();
+                    services.AddTransient<AltaPacienteView>();
 
                 })
                 .Build();

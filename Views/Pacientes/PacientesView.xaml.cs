@@ -28,8 +28,7 @@ namespace MedicalAppointments.Views.Pacientes
 
         private void NuevoPaciente_Click(object sender, RoutedEventArgs e)
         {
-            var dbContext = App.AppHost.Services.GetService(typeof(AppDbContext)) as AppDbContext;
-            var ventanaAlta = new AltaPacienteView();
+            var ventanaAlta = App.AppHost.Services.GetRequiredService<AltaPacienteView>();
             ventanaAlta.ShowDialog();
         }
     }

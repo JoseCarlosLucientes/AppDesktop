@@ -5,6 +5,8 @@ using System.Windows.Input;
 using System;
 using MedicalAppointments.Domain.Interfaces;
 
+
+
 namespace MedicalAppointments.ViewModels.Pacientes
 {
     public class AltaPacienteViewModel : INotifyPropertyChanged
@@ -13,10 +15,13 @@ namespace MedicalAppointments.ViewModels.Pacientes
 
         private readonly IPacienteService<PacienteDto> _pacienteService;
         public PacienteDto NuevoPaciente { get; set; }
-        public ICommand GuardarCommand { get; }
+        public ICommand GuardarCommand { get; }      
+
+       
 
         public AltaPacienteViewModel(IPacienteService<PacienteDto> pacienteService)
         {
+
             _pacienteService = pacienteService;
             NuevoPaciente = new PacienteDto();
             GuardarCommand = new RelayCommand(GuardarPaciente, CanGuardarPaciente);
