@@ -4,6 +4,7 @@ using MedicalAppointments.Domain.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MedicalAppointments.ViewModels.Pacientes
@@ -11,23 +12,41 @@ namespace MedicalAppointments.ViewModels.Pacientes
     public class PacientesViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<PacienteDto> _pacientes;
-        public ObservableCollection<PacienteDto> Pacientes => _pacientes;
+        public ObservableCollection<PacienteDto> Pacientes
+        {
+            get => _pacientes;
+            set
+            {
+                _pacientes = value;
+                OnPropertyChanged(nameof(Pacientes));
+            }
+        }
 
         private readonly IPacienteService<PacienteDto> _service;
+        public IRelayCommand CargarPacientesCommand { get; }
+
 
         public PacientesViewModel(IPacienteService<PacienteDto> service)
         {
             _service = service;
             _pacientes = new ObservableCollection<PacienteDto>();
-            LoadPacientes();
+
+            // Inicializa el comando y carga pacientes al iniciar
+            CargarPacientesCommand = new RelayCommand(async () => await LoadPacientes());
+            CargarPacientesCommand.Execute(null);
         }
 
-        private async void LoadPacientes()
+        private async Task LoadPacientes()
         {
             var pacientes = await _service.GetAllPacientesAsync();
-            _pacientes = new ObservableCollection<PacienteDto>(pacientes);
-            OnPropertyChanged(nameof(Pacientes));
+
+            // Evita romper el binding
+            _pacientes.Clear();
+
+            foreach (var p in pacientes)
+                _pacientes.Add(p);
         }
+
 
         public ICommand AddPacienteCommand => new RelayCommand(async () =>
         {

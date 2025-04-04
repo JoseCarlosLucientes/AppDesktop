@@ -1,5 +1,6 @@
 ﻿using MedicalAppointments.ViewModels.Pacientes;
 using MedicalAppointments.Views.Pacientes;
+using MedicalAppointments.Views.Usuarios;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Input;
@@ -50,6 +51,12 @@ namespace MedicalAppointments.Views
         {
             var pacientesView = App.AppHost.Services.GetRequiredService<PacientesView>();
             pacientesView.ShowDialog();
+        }
+
+        private void UsuariosButton_Click(object sender, RoutedEventArgs e)
+        {
+            var ventanaUsuarios = App.AppHost.Services.GetRequiredService<AltaUsuarioView>();
+            ventanaUsuarios.ShowDialog();
         }
     }
 }

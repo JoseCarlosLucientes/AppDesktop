@@ -15,9 +15,9 @@ namespace MedicalAppointments.ViewModels.Pacientes
 
         private readonly IPacienteService<PacienteDto> _pacienteService;
         public PacienteDto NuevoPaciente { get; set; }
-        public ICommand GuardarCommand { get; }      
+        public ICommand GuardarCommand { get; }
 
-       
+
 
         public AltaPacienteViewModel(IPacienteService<PacienteDto> pacienteService)
         {

@@ -14,7 +14,7 @@
 
         <!-- Columna izquierda - Datos principales -->
         <StackPanel Grid.Column="0" Margin="0,0,15,0">
-            <TextBlock Text="Nuevo paciente" FontSize="20" FontWeight="Bold" Margin="0,0,0,15" Foreground="#FF333333"/>
+            <TextBlock x:Name="txtTitle" Text="Nuevo paciente" FontSize="20" FontWeight="Bold" Margin="0,0,0,15" Foreground="#FF333333"/>
 
             <!-- Información personal -->
             <Grid>
@@ -197,7 +197,7 @@
             <!-- Botones -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
                 <Button Content="Cancelar" Width="100" Margin="0,0,10,0" Background="#FFE0E0E0" Foreground="#FF333333" Click="Cancelar_Click"/>
-                <Button Content="Crear paciente" Width="120" Background="#2C3E50" Foreground="White" Click="CrearPaciente_Click"/>
+                <Button x:Name="btnGuardar" Content="Crear paciente" Width="120" Background="#2C3E50" Foreground="White" Click="CrearPaciente_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

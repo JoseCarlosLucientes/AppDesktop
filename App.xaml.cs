@@ -1,20 +1,22 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using MedicalAppointments.Domain.Interfaces;
-using MedicalAppointments.Infrastructure.Repositories;
-using MedicalAppointments.AppLogic.Services;
-using System.IO;
-using System.Windows;
-using MedicalAppointments.AppLogic.DTOs;
-using MedicalAppointments.AppLogic.Mapping;
-using MedicalAppointments.Infrastructure.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using MedicalAppointments.Views;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using MedicalAppointments.ViewModels.Pacientes;
+using System.IO;
+using System.Windows;
+using MedicalAppointments.Domain.Interfaces;
+using MedicalAppointments.Infrastructure.Repositories;
+using MedicalAppointments.Infrastructure.Data;
+using MedicalAppointments.AppLogic.DTOs;
+using MedicalAppointments.AppLogic.Mapping;
+using MedicalAppointments.AppLogic.Services;
+using MedicalAppointments.Views;
 using MedicalAppointments.Views.Pacientes;
+using MedicalAppointments.ViewModels.Pacientes;
+using MedicalAppointments.Views.Usuarios;
+
 
 namespace MedicalAppointments
 {
@@ -43,19 +45,23 @@ namespace MedicalAppointments
 
                     // Repositorios
                     services.AddScoped<IPacienteRepository, PacienteRepository>();
+                    services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+                  
 
                     // Servicios
-                    services.AddScoped<IPacienteService<PacienteDto>, PacienteService>();
-                    services.AddScoped<PacienteService>();
+                    services.AddScoped<IPacienteService<PacienteDto>, PacienteService>();                                      
+                    services.AddScoped<IUsuarioService<UsuarioDto>, UsuarioService>();
 
                     // AutoMapper
                     services.AddAutoMapper(typeof(MappingProfile));
+                  
 
                     // Vista principal
                     services.AddSingleton<MenuPrincipal>();
                     services.AddTransient<PacientesViewModel>();
                     services.AddTransient<PacientesView>();
                     services.AddTransient<AltaPacienteView>();
+                    services.AddTransient<AltaUsuarioView>();
 
                 })
                 .Build();

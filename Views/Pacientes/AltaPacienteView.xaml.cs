@@ -3,18 +3,64 @@ using MedicalAppointments.Domain.Interfaces;
 using System;
 using System.Windows;
 
+
 namespace MedicalAppointments.Views.Pacientes
 {
     public partial class AltaPacienteView : Window
     {
         private readonly IPacienteService<PacienteDto> _pacienteService;
         private byte[]? _firmaPaciente;
-        public AltaPacienteView(IPacienteService<PacienteDto> pacienteService)
+        private readonly bool _modoEdicion;
+        private readonly int? _pacienteId = null;       
+        private readonly PacienteDto? _pacienteEditar;
+
+
+        public AltaPacienteView(IPacienteService<PacienteDto> pacienteService, PacienteDto? paciente = null)
         {
             InitializeComponent();
             _pacienteService = pacienteService;
             InicializarControles();
+
+            if (paciente != null)
+            {
+                _modoEdicion = true;
+                _pacienteId = paciente.Id;
+                txtTitle.Text = "Editar paciente"; // Cambiar título
+                btnGuardar.Content = "Guardar cambios"; // Cambiar texto botón               
+                CargarDatosPaciente(paciente);
+            }
+            else
+            {
+                txtTitle.Text = "Nuevo paciente";
+                btnGuardar.Content = "Crear paciente";
+            }
         }
+
+        private void CargarDatosPaciente(PacienteDto p)
+        {
+            txtNombre.Text = p.Nombre;
+            txtApellido1.Text = p.Apellido1;
+            txtDNI.Text = p.Dni;
+            dpFechaNacimiento.SelectedDate = p.FechaNacimiento;
+            cbSexo.Text = p.Sexo;
+            cbProfesion.Text = p.Profesion;
+            txtDireccion.Text = p.Direccion;
+            txtCodigoPostal.Text = p.CodigoPostal;
+            txtProvincia.Text = p.Provincia;
+            txtCiudad.Text = p.Ciudad;
+            txtEmail.Text = p.Email;
+            txtTelefonoFijo.Text = p.TelFijo;
+            txtTelefonoMovil.Text = p.TelMovil;
+            txtNumeroHistoria.Text = p.NumeroHistoriaClinica;
+            chkEmail.IsChecked = p.PermiteEmail;
+            chkSMS.IsChecked = p.PermiteSMS;
+            chkWhatsApp.IsChecked = p.PermiteWhatsApp;
+            chkMarketing.IsChecked = p.PermiteMarketing;
+            txtOtros.Text = p.Observ;
+            _firmaPaciente = p.Firma;
+            chkRGPD.IsChecked = p.RGPD;
+        }
+
 
         private void InicializarControles()
         {
@@ -39,9 +85,9 @@ namespace MedicalAppointments.Views.Pacientes
             {
                 var pacienteDto = new PacienteDto
                 {
+                    Id = _pacienteId ?? 0, // Importante para el modo edición
                     Nombre = txtNombre.Text.Trim(),
                     Apellido1 = txtApellido1.Text.Trim(),
-                    // Apellido2 = txtApellido2.Text.Trim(),
                     Dni = txtDNI.Text.Trim(),
                     FechaNacimiento = dpFechaNacimiento.SelectedDate ?? DateTime.Now,
                     Sexo = cbSexo.Text,
@@ -59,26 +105,29 @@ namespace MedicalAppointments.Views.Pacientes
                     PermiteWhatsApp = chkWhatsApp.IsChecked ?? false,
                     PermiteMarketing = chkMarketing.IsChecked ?? false,
                     Observ = txtOtros.Text?.Trim(),
-                    //RGPD = chkRGPD.IsChecked ?? false
+                    Firma = _firmaPaciente,
+                    RGPD = chkRGPD.IsChecked ?? false
                 };
 
-                pacienteDto.Firma = _firmaPaciente;
+                if (_modoEdicion)
+                {
+                    await _pacienteService.UpdatePacienteAsync(pacienteDto); // Actualiza paciente
+                    MessageBox.Show("Paciente actualizado correctamente", "Actualizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    await _pacienteService.CreatePacienteAsync(pacienteDto); // Nuevo paciente
+                    MessageBox.Show("Paciente creado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
 
-
-                await _pacienteService.CreatePacienteAsync(pacienteDto);
-                MessageBox.Show("Paciente guardado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show(ex.Message, "Paciente duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al guardar paciente: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
+
         private bool ValidarCamposObligatorios()
         {
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
@@ -132,7 +181,8 @@ namespace MedicalAppointments.Views.Pacientes
                 _firmaPaciente = ventanaFirma.FirmaBytes;
                 MessageBox.Show("Firma registrada correctamente.", "Firma", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-        }
+        }      
+
 
     }
 }

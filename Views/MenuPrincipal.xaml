@@ -63,7 +63,7 @@
                                     </StackPanel>
                                 </Button>
 
-                                <Button Style="{StaticResource SidebarButtonStyle}">
+                                <Button Style="{StaticResource SidebarButtonStyle}" Click="UsuariosButton_Click">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Account" Width="20" Margin="0,0,10,0"/>
                                         <TextBlock Text="Usuarios"/>

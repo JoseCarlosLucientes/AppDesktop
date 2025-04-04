@@ -32,16 +32,29 @@
             <Grid Margin="10">
                 <StackPanel>
                     <TextBlock Text="Listado de pacientes" FontSize="24" Margin="0,0,0,10"/>
-                    <DataGrid ItemsSource="{Binding Pacientes}" AutoGenerateColumns="False" Margin="10">
+                    <DataGrid ItemsSource="{Binding Pacientes}" AutoGenerateColumns="False" Margin="10" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
                             <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
                             <DataGridTextColumn Header="Apellidos" Binding="{Binding ApellidoCompleto}" Width="*"/>
                             <DataGridTextColumn Header="DNI" Binding="{Binding Dni}" Width="Auto"/>
                             <DataGridTextColumn Header="Teléfono" Binding="{Binding TelMovil}" Width="Auto"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
 
+                            <DataGridTemplateColumn Header="Acciones">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="5">
+                                            <Button Content="Editar" Click="EditarPaciente_Click" Tag="{Binding}" Margin="5"/>
+                                            <Button Content="Eliminar" Click="EliminarPaciente_Click" Tag="{Binding}" 
+                                                    Background="Crimson" Foreground="White" Margin="5"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                        </DataGrid.Columns>                        
+                        
+                    </DataGrid>                   
                     
                 </StackPanel>
             </Grid>
