@@ -15,6 +15,7 @@ using MedicalAppointments.AppLogic.Services;
 using MedicalAppointments.Views;
 using MedicalAppointments.Views.Pacientes;
 using MedicalAppointments.ViewModels.Pacientes;
+using MedicalAppointments.ViewModels.Usuarios;
 using MedicalAppointments.Views.Usuarios;
 
 
@@ -61,6 +62,7 @@ namespace MedicalAppointments
                     services.AddTransient<PacientesViewModel>();
                     services.AddTransient<PacientesView>();
                     services.AddTransient<AltaPacienteView>();
+                    services.AddTransient<AltaUsuarioViewModel>();
                     services.AddTransient<AltaUsuarioView>();
 
                 })

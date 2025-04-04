@@ -1,125 +1,53 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using MedicalAppointments.AppLogic.DTOs;
-using MedicalAppointments.Domain.Interfaces;
-using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
+using System;
+using MedicalAppointments.Domain.Interfaces;
+
+
 
 namespace MedicalAppointments.ViewModels.Usuarios
 {
-    public class AltaUsuarioViewModel : ObservableObject
+    public class AltaUsuarioViewModel : INotifyPropertyChanged
     {
-        private readonly IUsuarioService<UsuarioDto> _usuarioService;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public UsuarioDto Usuario { get; set; } = new();
-        public ObservableCollection<RolDto> Roles { get; set; } = new();
-        public ObservableCollection<EspecialidadDto> Especialidades { get; set; } = new();
-
-        private RolDto? _rolSeleccionado;
-        public RolDto? RolSeleccionado
-        {
-            get => _rolSeleccionado;
-            set
-            {
-                SetProperty(ref _rolSeleccionado, value);
-                OnPropertyChanged(nameof(EspecialidadHabilitada));
-                ActualizarEspecialidadPorDefecto();
-            }
-        }
-
-        private EspecialidadDto? _especialidadSeleccionada;
-        public EspecialidadDto? EspecialidadSeleccionada
-        {
-            get => _especialidadSeleccionada;
-            set => SetProperty(ref _especialidadSeleccionada, value);
-        }
-
-        public bool EspecialidadHabilitada =>
-            RolSeleccionado?.NombreRol?.ToLower() == "especialista";
-
+        private readonly IUsuarioService<UsuarioDto> _usuaraioService;
+        public UsuarioDto NuevoUsuario { get; set; }
         public ICommand GuardarCommand { get; }
-        public ICommand CancelarCommand { get; }
+
+
 
         public AltaUsuarioViewModel(IUsuarioService<UsuarioDto> usuarioService)
         {
-            _usuarioService = usuarioService;
 
-            GuardarCommand = new RelayCommand(async () => await GuardarUsuarioAsync(), CanGuardar);
-            CancelarCommand = new RelayCommand(Cancelar);
-
-            CargarCombosAsync();
+            _usuaraioService = usuarioService;
+            NuevoUsuario = new UsuarioDto();
+            GuardarCommand = new RelayCommand(GuardarUsuario, CanGuardarUsuario);
         }
 
-        private async Task CargarCombosAsync()
+        private async void GuardarUsuario()
         {
             try
             {
-                var roles = await _usuarioService.ObtenerRolesAsync();
-                var especialidades = await _usuarioService.ObtenerEspecialidadesAsync();
-
-                Roles = new ObservableCollection<RolDto>(roles);
-                Especialidades = new ObservableCollection<EspecialidadDto>(especialidades);
-
-                OnPropertyChanged(nameof(Roles));
-                OnPropertyChanged(nameof(Especialidades));
+                await _usuaraioService.CreateUsuarioAsync(NuevoUsuario);
+                // Notificar éxito y cerrar la ventana o limpiar el formulario
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Manejar errores y notificar al usuario
             }
         }
 
-        private void ActualizarEspecialidadPorDefecto()
+        private bool CanGuardarUsuario()
         {
-            if (!EspecialidadHabilitada)
-            {
-                EspecialidadSeleccionada = Especialidades.FirstOrDefault(e => e.NombreEspecialidad == "Sin Especialidad");
-            }
+            // Validar si se pueden guardar los datos (por ejemplo, campos obligatorios completos)
+            return !string.IsNullOrWhiteSpace(NuevoUsuario.Nombre) &&
+                   !string.IsNullOrWhiteSpace(NuevoUsuario.Apellidos) &&
+                   !string.IsNullOrWhiteSpace(NuevoUsuario.Dni);
         }
 
-        private bool CanGuardar()
-        {
-            return !string.IsNullOrWhiteSpace(Usuario.NombreUsuario)
-                && !string.IsNullOrWhiteSpace(Usuario.Contrasenia)
-                && !string.IsNullOrWhiteSpace(Usuario.Nombre)
-                && !string.IsNullOrWhiteSpace(Usuario.Apellidos)
-                && RolSeleccionado != null;
-        }
-
-        private async Task GuardarUsuarioAsync()
-        {
-            try
-            {
-                Usuario.IdRol = RolSeleccionado?.Id ?? 0;
-                Usuario.IdEspecialidad = EspecialidadSeleccionada?.Id ?? 1; // "Sin Especialidad"
-
-                await _usuarioService.CreateUserAsync(Usuario);
-
-                MessageBox.Show("Usuario guardado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                // Cerrar ventana desde código-behind si es necesario
-                Application.Current.Windows
-                    .OfType<Window>()
-                    .FirstOrDefault(w => w.DataContext == this)
-                    ?.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al guardar usuario: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void Cancelar()
-        {
-            Application.Current.Windows
-                .OfType<Window>()
-                .FirstOrDefault(w => w.DataContext == this)
-                ?.Close();
-        }
+        // Implementación de INotifyPropertyChanged...
     }
 }
