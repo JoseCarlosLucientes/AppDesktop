@@ -8,6 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="bin\**" />
+    <None Remove="obj\**" />
+    <Page Remove="bin\**" />
+    <Page Remove="obj\**" />
+  </ItemGroup>
+
+ 
+
+  
+
+  <ItemGroup>
     <PackageReference Include="AForge.Video" Version="2.2.5" />
     <PackageReference Include="AForge.Video.DirectShow" Version="2.2.5" />
     <PackageReference Include="Aspose.Slides.NET" Version="25.3.0" />
@@ -19,9 +34,8 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MedicalAppointments.Application\MedicalAppointments.AppLogic.csproj" />
-    <ProjectReference Include="..\MedicalAppointments.AppLogic\MedicalAppointments.AppLogic.csproj" />
+  <ItemGroup>   
+    <ProjectReference Include="..\\MedicalAppointments.AppLogic\MedicalAppointments.AppLogic.csproj" />
     <ProjectReference Include="..\MedicalAppointments.Domain\MedicalAppointments.Domain.csproj" />
     <ProjectReference Include="..\MedicalAppointments.Infrastructure\MedicalAppointments.Infrastructure.csproj" />
   </ItemGroup>

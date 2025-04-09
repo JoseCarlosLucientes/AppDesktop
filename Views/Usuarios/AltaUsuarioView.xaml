@@ -11,7 +11,7 @@
 
         <!-- Contenido principal -->
         <StackPanel Grid.Column="0">
-            <TextBlock Text="Nuevo usuario" FontSize="20" FontWeight="Bold" Margin="0,0,0,15" Foreground="#FF333333"/>
+            <TextBlock x:Name="txtTitle" Text="Nuevo usuario" FontSize="20" FontWeight="Bold" Margin="0,0,0,15" Foreground="#FF333333"/>
 
             <!-- Sección Credenciales -->
             <StackPanel Margin="0,0,0,15">
@@ -24,13 +24,13 @@
 
                     <StackPanel Grid.Column="0">
                         <Label Content="Usuario" FontWeight="Bold" Foreground="#FF333333"/>
-                        <TextBox Text="{Binding Usuario.NombreUsuario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBox Text="{Binding Usuario.Usuario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                  Background="White" BorderBrush="#FFCCCCCC"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
                         <Label Content="Contraseña" FontWeight="Bold" Foreground="#FF333333"/>
-                        <PasswordBox helpers:PasswordHelper.Attach="True" helpers:PasswordHelper.Password="{Binding Usuario.Contrasenia, Mode=TwoWay}" Background="White" BorderBrush="#FFCCCCCC"/>
+                        <PasswordBox helpers:PasswordHelper.Password="{Binding Usuario.Contrasenia, Mode=TwoWay}" Background="White" BorderBrush="#FFCCCCCC"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -81,7 +81,7 @@
                     <!-- Teléfono -->
                     <StackPanel Grid.Column="2">
                         <Label Content="Teléfono" FontWeight="Bold" Foreground="#FF333333"/>
-                        <TextBox Text="{Binding Usuario.Telf, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBox Text="{Binding Usuario.Telefono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                  Background="White" BorderBrush="#FFCCCCCC"/>
                     </StackPanel>
                 </Grid>
@@ -99,19 +99,18 @@
                     <StackPanel Grid.Column="0">
                         <Label Content="Rol" FontWeight="Bold" Foreground="#FF333333"/>
                         <ComboBox ItemsSource="{Binding Roles}" 
-                                  DisplayMemberPath="NombreRol"
-                                  SelectedValuePath="Id"
-                                  SelectedValue="{Binding Usuario.IdRol, Mode=TwoWay}"
-                                  Margin="0,0,0,10"/>
+                      DisplayMemberPath="NombreRol"
+                      SelectedItem="{Binding RolSeleccionado, Mode=TwoWay}"
+                      Margin="0,0,0,10"/>
+
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
                         <Label Content="Especialidad" FontWeight="Bold" Foreground="#FF333333"/>
-                        <ComboBox ItemsSource="{Binding Especialidades}" 
-                                  DisplayMemberPath="NombreEspecialidad"
-                                  SelectedValuePath="Id"
-                                  SelectedValue="{Binding Usuario.IdEspecialidad, Mode=TwoWay}"
-                                  IsEnabled="{Binding EspecialidadHabilitada}"/>
+                        <ComboBox ItemsSource="{Binding EspecialidadesVisibles}" 
+                      DisplayMemberPath="NombreEspecialidad"
+                      SelectedItem="{Binding EspecialidadSeleccionada, Mode=TwoWay}"
+                      IsEnabled="{Binding EspecialidadHabilitada}"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -126,9 +125,9 @@
                 <Button Content="Cancelar" Width="100" Margin="0,0,10,0"
                         Background="#FFE0E0E0" Foreground="#FF333333" 
                         Command="{Binding CancelarCommand}"/>
-                <Button Content="Crear usuario" Width="120"
-                        Background="#2C3E50" Foreground="White" 
-                        Command="{Binding GuardarCommand}"/>
+                <Button x:Name="btnGuardar" Content="Crear usuario" Width="120"
+        Background="#2C3E50" Foreground="White"
+        Click="btnGuardar_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

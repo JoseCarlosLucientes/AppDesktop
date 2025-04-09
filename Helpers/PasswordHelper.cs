@@ -6,18 +6,24 @@ namespace MedicalAppointments.Helpers
     public static class PasswordHelper
     {
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.RegisterAttached("Password",
-            typeof(string), typeof(PasswordHelper),
-            new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
+            DependencyProperty.RegisterAttached(
+                "Password",
+                typeof(string),
+                typeof(PasswordHelper),
+                new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
         public static readonly DependencyProperty AttachProperty =
-            DependencyProperty.RegisterAttached("Attach",
-            typeof(bool), typeof(PasswordHelper),
-            new PropertyMetadata(false, Attach));
+            DependencyProperty.RegisterAttached(
+                "Attach",
+                typeof(bool),
+                typeof(PasswordHelper),
+                new PropertyMetadata(false, Attach));
 
         private static readonly DependencyProperty IsUpdatingProperty =
-            DependencyProperty.RegisterAttached("IsUpdating",
-            typeof(bool), typeof(PasswordHelper));
+            DependencyProperty.RegisterAttached(
+                "IsUpdating",
+                typeof(bool),
+                typeof(PasswordHelper));
 
         public static void SetAttach(DependencyObject dp, bool value)
         {
@@ -49,42 +55,34 @@ namespace MedicalAppointments.Helpers
             dp.SetValue(IsUpdatingProperty, value);
         }
 
-        private static void OnPasswordPropertyChanged(DependencyObject sender,
-            DependencyPropertyChangedEventArgs e)
+        private static void OnPasswordPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-            passwordBox.PasswordChanged -= PasswordBox_PasswordChanged;
-
-            if (!GetIsUpdating(passwordBox))
+            if (sender is PasswordBox passwordBox)
             {
-                passwordBox.Password = (string)e.NewValue;
-            }
+                passwordBox.PasswordChanged -= PasswordChanged;
 
-            passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
-        }
+                if (!(bool)GetIsUpdating(passwordBox))
+                    passwordBox.Password = (string)e.NewValue;
 
-        private static void Attach(DependencyObject sender,
-            DependencyPropertyChangedEventArgs e)
-        {
-            PasswordBox passwordBox = sender as PasswordBox;
-
-            if (passwordBox == null)
-                return;
-
-            if ((bool)e.OldValue)
-            {
-                passwordBox.PasswordChanged -= PasswordBox_PasswordChanged;
-            }
-
-            if ((bool)e.NewValue)
-            {
-                passwordBox.PasswordChanged += PasswordBox_PasswordChanged;
+                passwordBox.PasswordChanged += PasswordChanged;
             }
         }
 
-        private static void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private static void Attach(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
+            if (sender is PasswordBox passwordBox)
+            {
+                if ((bool)e.OldValue)
+                    passwordBox.PasswordChanged -= PasswordChanged;
+
+                if ((bool)e.NewValue)
+                    passwordBox.PasswordChanged += PasswordChanged;
+            }
+        }
+
+        private static void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
             SetIsUpdating(passwordBox, true);
             SetPassword(passwordBox, passwordBox.Password);
             SetIsUpdating(passwordBox, false);

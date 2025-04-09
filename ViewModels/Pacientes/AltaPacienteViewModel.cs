@@ -42,10 +42,11 @@ namespace MedicalAppointments.ViewModels.Pacientes
 
         private bool CanGuardarPaciente()
         {
-            // Validar si se pueden guardar los datos (por ejemplo, campos obligatorios completos)
+            // Validar  campos obligatorios completos)
             return !string.IsNullOrWhiteSpace(NuevoPaciente.Nombre) &&
                    !string.IsNullOrWhiteSpace(NuevoPaciente.Apellido1) &&
                    !string.IsNullOrWhiteSpace(NuevoPaciente.Dni);
+                   
         }
 
         // Implementación de INotifyPropertyChanged...

@@ -55,7 +55,7 @@ namespace MedicalAppointments.Views
 
         private void UsuariosButton_Click(object sender, RoutedEventArgs e)
         {
-            var ventanaUsuarios = App.AppHost.Services.GetRequiredService<AltaUsuarioView>();
+            var ventanaUsuarios = App.AppHost.Services.GetRequiredService<UsuariosView>();
             ventanaUsuarios.ShowDialog();
         }
     }

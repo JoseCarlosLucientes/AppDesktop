@@ -46,12 +46,14 @@ namespace MedicalAppointments
 
                     // Repositorios
                     services.AddScoped<IPacienteRepository, PacienteRepository>();
-                    services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+                    services.AddScoped<IUserRepository, UserRepository>();
                   
 
                     // Servicios
                     services.AddScoped<IPacienteService<PacienteDto>, PacienteService>();                                      
-                    services.AddScoped<IUsuarioService<UsuarioDto>, UsuarioService>();
+                    services.AddScoped<IUserService<UserDto>, UserService>();
+                    services.AddScoped<UserService>();
+
 
                     // AutoMapper
                     services.AddAutoMapper(typeof(MappingProfile));
@@ -59,11 +61,16 @@ namespace MedicalAppointments
 
                     // Vista principal
                     services.AddSingleton<MenuPrincipal>();
+
                     services.AddTransient<PacientesViewModel>();
                     services.AddTransient<PacientesView>();
+
                     services.AddTransient<AltaPacienteView>();
                     services.AddTransient<AltaUsuarioViewModel>();
+
                     services.AddTransient<AltaUsuarioView>();
+                    services.AddTransient<UsuariosViewModel>();
+                    services.AddTransient<UsuariosView>();
 
                 })
                 .Build();
